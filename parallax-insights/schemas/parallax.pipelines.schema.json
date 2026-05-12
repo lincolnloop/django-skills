@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "PipelineProject": {
+      "type": "object",
+      "properties": {
+        "id":          { "type": "string" },
+        "name":        { "type": ["string", "null"] },
+        "client_name": { "type": ["string", "null"] },
+        "status":      { "type": ["string", "null"] }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    },
+    "PipelineStage": {
+      "type": "object",
+      "properties": {
+        "name":           { "type": "string" },
+        "projects_count": { "type": "integer" },
+        "projects":       { "type": "array", "items": { "$ref": "#/$defs/PipelineProject" } }
+      },
+      "required": ["name", "projects_count", "projects"],
+      "additionalProperties": true
+    }
+  },
+  "title": "ParallaxPipelines",
+  "description": "Pipeline stages derived from the stage_name field on projects in /api/projects. There is no dedicated pipelines endpoint in the Insights API.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "pipelines" },
+    "generated_at": { "type": "string" },
+    "note":         { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "integer" }
+      },
+      "required": ["total"],
+      "additionalProperties": true
+    },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/PipelineStage" } }
+  },
+  "required": ["category", "generated_at", "counts", "items"],
+  "additionalProperties": true
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Block": {
+      "type": "object",
+      "description": "A Logseq block. children contains nested blocks recursively.",
+      "properties": {
+        "id":       { "type": ["integer", "null"] },
+        "uuid":     { "type": ["string", "null"] },
+        "content":  { "type": ["string", "null"] },
+        "level":    { "type": ["integer", "null"] },
+        "page":     { "type": ["object", "null"] },
+        "parent":   { "type": ["object", "null"] },
+        "left":     { "type": ["object", "null"] },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/Block" } },
+        "properties": { "type": ["object", "null"] }
+      },
+      "required": ["uuid"],
+      "additionalProperties": true
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "id":           { "type": ["integer", "null"] },
+        "uuid":         { "type": ["string", "null"] },
+        "name":         { "type": ["string", "null"] },
+        "originalName": { "type": ["string", "null"] },
+        "journalDay":   { "type": ["integer", "null"], "description": "YYYYMMDD integer for journal pages, null for regular pages" },
+        "properties":   { "type": ["object", "null"] },
+        "createdAt":    { "type": ["integer", "null"], "description": "Unix timestamp in milliseconds" },
+        "updatedAt":    { "type": ["integer", "null"], "description": "Unix timestamp in milliseconds" }
+      },
+      "required": [],
+      "additionalProperties": true
+    }
+  },
+  "title": "LogseqPage",
+  "description": "Output of scripts/get-page.py and scripts/get-current-page.py.",
+  "oneOf": [
+    {
+      "description": "Page found",
+      "type": "object",
+      "properties": {
+        "page":   { "$ref": "#/$defs/Page" },
+        "blocks": { "type": "array", "items": { "$ref": "#/$defs/Block" } }
+      },
+      "required": ["page", "blocks"]
+    },
+    {
+      "description": "Page not found",
+      "type": "null"
+    }
+  ]
+}

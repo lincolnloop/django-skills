@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "HeartbeatCheck": {
+      "type": "object",
+      "properties": {
+        "id":             { "type": ["integer", "string"] },
+        "name":           { "type": ["string", "null"] },
+        "status":         { "type": ["string", "null"], "enum": ["up", "down", null] },
+        "paused":         { "type": ["boolean", "null"] },
+        "period":         { "type": ["integer", "null"], "description": "Expected heartbeat interval in seconds (30–172800)" },
+        "host":           { "type": ["string", "null"] },
+        "uptime":         { "type": ["number", "null"] },
+        "tags":           { "type": "array", "items": { "type": "string" } },
+        "contact_groups": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    }
+  },
+  "title": "StatusCakeHeartbeatChecks",
+  "description": "All heartbeat checks. Output of scripts/list-heartbeat.py.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "heartbeat_checks" },
+    "generated_at": { "type": "string" },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "status": { "type": ["string", "null"], "enum": ["up", "down", null] }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total":  { "type": "integer" },
+        "up":     { "type": "integer" },
+        "down":   { "type": "integer" },
+        "paused": { "type": "integer" }
+      },
+      "required": ["total", "up", "down", "paused"],
+      "additionalProperties": false
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/HeartbeatCheck" }
+    }
+  },
+  "required": ["category", "generated_at", "filters", "counts", "items"],
+  "additionalProperties": false
+}

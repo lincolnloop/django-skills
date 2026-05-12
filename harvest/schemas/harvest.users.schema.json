@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id":                   { "type": "integer" },
+        "first_name":           { "type": ["string", "null"] },
+        "last_name":            { "type": ["string", "null"] },
+        "email":                { "type": ["string", "null"] },
+        "is_active":            { "type": ["boolean", "null"] },
+        "is_contractor":        { "type": ["boolean", "null"] },
+        "timezone":             { "type": ["string", "null"], "description": "IANA timezone name, e.g. America/New_York" },
+        "weekly_capacity":      { "type": ["integer", "null"], "description": "Capacity in seconds per week" },
+        "default_hourly_rate":  { "type": ["number", "null"] },
+        "roles":                { "type": "array", "items": { "type": "string" } },
+        "created_at":           { "type": ["string", "null"] },
+        "updated_at":           { "type": ["string", "null"] }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  },
+  "title": "HarvestUsers",
+  "description": "Team member roster with roles, capacity, and hourly rates. Output of scripts/list-users.py. Sorted alphabetically by last_name, first_name.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "users" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total":       { "type": "integer" },
+        "active":      { "type": "integer" },
+        "contractors": { "type": "integer" }
+      },
+      "required": ["total", "active", "contractors"],
+      "additionalProperties": false
+    },
+    "users": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/User" }
+    }
+  },
+  "required": ["category", "generated_at", "counts", "users"],
+  "additionalProperties": false
+}

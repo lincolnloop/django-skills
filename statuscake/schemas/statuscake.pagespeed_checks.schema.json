@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "PagespeedCheck": {
+      "type": "object",
+      "properties": {
+        "id":             { "type": ["integer", "string"] },
+        "name":           { "type": ["string", "null"] },
+        "website_url":    { "type": ["string", "null"] },
+        "check_rate":     { "type": ["integer", "null"], "description": "Check interval in seconds" },
+        "paused":         { "type": ["boolean", "null"] },
+        "region":         { "type": ["string", "null"], "description": "Probe region code e.g. UK, US" },
+        "alert_bigger":   { "type": ["integer", "null"], "description": "Alert if page size exceeds N KB" },
+        "alert_slower":   { "type": ["integer", "null"], "description": "Alert if load time exceeds N ms" },
+        "alert_smaller":  { "type": ["integer", "null"], "description": "Alert if page size drops below N KB" },
+        "contact_groups": { "type": "array", "items": { "type": "string" } },
+        "latest_stats":   { "type": ["object", "null"] }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    }
+  },
+  "title": "StatusCakePagespeedChecks",
+  "description": "All pagespeed checks. Output of scripts/list-pagespeed.py. Sorted alphabetically by name.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "pagespeed_checks" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total":  { "type": "integer" },
+        "active": { "type": "integer" },
+        "paused": { "type": "integer" }
+      },
+      "required": ["total", "active", "paused"],
+      "additionalProperties": false
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/PagespeedCheck" }
+    }
+  },
+  "required": ["category", "generated_at", "counts", "items"],
+  "additionalProperties": false
+}

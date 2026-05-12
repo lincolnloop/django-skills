@@ -1,0 +1,10 @@
+{
+  "name": "django-layout",
+  "version": "0.1.0",
+  "description": "Recipe for generating a production-ready Django project with uv, Docker, PostgreSQL, Redis, Celery, and htmx.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": ["./SKILL.md"]
+  },
+  "files": ["SKILL.md", "README.md"]
+}

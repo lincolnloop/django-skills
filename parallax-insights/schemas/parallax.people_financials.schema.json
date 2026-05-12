@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string" },
+        "end_date":   { "type": "string" }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": true
+    },
+    "FinancialPeriod": {
+      "description": "Financial breakdown for a single date period.",
+      "type": "object",
+      "properties": {
+        "actual_hours":       { "type": ["number", "null"] },
+        "actual_revenue":     { "type": ["number", "null"] },
+        "actual_margin":      { "type": ["number", "null"] },
+        "actual_cost":        { "type": ["number", "null"] },
+        "planned_hours":      { "type": ["number", "null"] },
+        "planned_revenue":    { "type": ["number", "null"] },
+        "planned_margin":     { "type": ["number", "null"] },
+        "planned_cost":       { "type": ["number", "null"] },
+        "projected_hours":    { "type": ["number", "null"] },
+        "projected_revenue":  { "type": ["number", "null"] },
+        "projected_margin":   { "type": ["number", "null"] },
+        "projected_cost":     { "type": ["number", "null"] },
+        "forecast_hours":     { "type": ["number", "null"] },
+        "forecast_revenue":   { "type": ["number", "null"] },
+        "forecast_margin":    { "type": ["number", "null"] },
+        "forecast_cost":      { "type": ["number", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "PersonFinancials": {
+      "type": "object",
+      "properties": {
+        "person_id":    { "type": "string" },
+        "name":         { "type": "string" },
+        "given_name":   { "type": ["string", "null"] },
+        "family_name":  { "type": ["string", "null"] },
+        "email":        { "type": ["string", "null"] },
+        "worker_type":  { "type": ["string", "null"] },
+        "primary_dept": { "type": ["string", "null"] },
+        "primary_role": { "type": ["string", "null"] },
+        "location":     { "type": ["string", "null"] },
+        "tags":         { "type": "array", "items": { "type": "string" } },
+        "totals": { "$ref": "#/$defs/FinancialPeriod" },
+        "periods": {
+          "type": "object",
+          "description": "Keys are date strings (YYYY-MM-DD); values are FinancialPeriod objects.",
+          "additionalProperties": { "$ref": "#/$defs/FinancialPeriod" }
+        }
+      },
+      "required": ["person_id", "name", "totals", "periods"],
+      "additionalProperties": true
+    }
+  },
+  "title": "ParallaxPeopleFinancials",
+  "description": "Planned, projected, actual, and forecast financials per person per date period from /api/people/financials. Comparable to the Parallax Margin Overview report.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "people_financials" },
+    "since":        { "type": "string" },
+    "until":        { "type": "string" },
+    "range":        { "$ref": "#/$defs/DateRange" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total_people":          { "type": "integer" },
+        "total_actual_hours":    { "type": "number" },
+        "total_actual_revenue":  { "type": "number" },
+        "total_planned_hours":   { "type": "number" },
+        "total_planned_revenue": { "type": "number" }
+      },
+      "required": ["total_people"],
+      "additionalProperties": true
+    },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/PersonFinancials" } }
+  },
+  "required": ["category", "range", "generated_at", "counts", "items"],
+  "additionalProperties": true
+}

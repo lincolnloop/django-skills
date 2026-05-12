@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string", "description": "YYYY-MM-DD" },
+        "end_date":   { "type": "string", "description": "YYYY-MM-DD" }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": false
+    },
+    "UserHours": {
+      "type": "object",
+      "properties": {
+        "user_id":        { "type": "integer" },
+        "user":           { "type": "string" },
+        "total_hours":    { "type": "number" },
+        "billable_hours": { "type": "number" },
+        "entries":        { "type": "integer" }
+      },
+      "required": ["user_id", "user", "total_hours", "billable_hours", "entries"],
+      "additionalProperties": false
+    },
+    "ProjectHours": {
+      "type": "object",
+      "properties": {
+        "project_id":     { "type": "integer" },
+        "project":        { "type": "string" },
+        "client":         { "type": "string" },
+        "client_id":      { "type": "integer" },
+        "total_hours":    { "type": "number" },
+        "billable_hours": { "type": "number" },
+        "entries":        { "type": "integer" }
+      },
+      "required": ["project_id", "project", "client", "client_id", "total_hours", "billable_hours", "entries"],
+      "additionalProperties": false
+    },
+    "TaskHours": {
+      "type": "object",
+      "properties": {
+        "task_id":        { "type": "integer" },
+        "task":           { "type": "string" },
+        "total_hours":    { "type": "number" },
+        "billable_hours": { "type": "number" },
+        "entries":        { "type": "integer" }
+      },
+      "required": ["task_id", "task", "total_hours", "billable_hours", "entries"],
+      "additionalProperties": false
+    },
+    "TimeEntry": {
+      "type": "object",
+      "properties": {
+        "id":         { "type": "integer" },
+        "spent_date": { "type": "string", "description": "YYYY-MM-DD" },
+        "user":       { "type": "string" },
+        "user_id":    { "type": "integer" },
+        "client":     { "type": "string" },
+        "client_id":  { "type": "integer" },
+        "project":    { "type": "string" },
+        "project_id": { "type": "integer" },
+        "task":       { "type": "string" },
+        "task_id":    { "type": "integer" },
+        "hours":      { "type": "number" },
+        "billable":   { "type": "boolean" },
+        "notes":      { "type": ["string", "null"] },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["id", "spent_date", "user_id", "project_id", "task_id", "hours", "billable"],
+      "additionalProperties": false
+    }
+  },
+  "title": "HarvestTimeEntries",
+  "description": "Raw time entries with aggregations by user, project, and task. Output of scripts/time-entries.py.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "time_entries" },
+    "since":        { "type": "string", "description": "ISO 8601 UTC start of range" },
+    "until":        { "type": "string", "description": "ISO 8601 UTC end of range" },
+    "range":        { "$ref": "#/$defs/DateRange" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total_entries":      { "type": "integer" },
+        "total_hours":        { "type": "number" },
+        "billable_hours":     { "type": "number" },
+        "non_billable_hours": { "type": "number" },
+        "active_users":       { "type": "integer" },
+        "active_projects":    { "type": "integer" }
+      },
+      "required": ["total_entries", "total_hours", "billable_hours", "non_billable_hours", "active_users", "active_projects"],
+      "additionalProperties": false
+    },
+    "by_user":    { "type": "array", "items": { "$ref": "#/$defs/UserHours" },    "description": "Hours per user, sorted descending by total_hours" },
+    "by_project": { "type": "array", "items": { "$ref": "#/$defs/ProjectHours" }, "description": "Hours per project, sorted descending by total_hours" },
+    "by_task":    { "type": "array", "items": { "$ref": "#/$defs/TaskHours" },    "description": "Hours per task type, sorted descending by total_hours" },
+    "items":      { "type": "array", "items": { "$ref": "#/$defs/TimeEntry" },    "description": "Individual entries, sorted by spent_date descending" }
+  },
+  "required": ["category", "range", "generated_at", "counts", "by_user", "by_project", "by_task", "items"],
+  "additionalProperties": false
+}

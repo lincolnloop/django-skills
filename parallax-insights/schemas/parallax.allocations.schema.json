@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string" },
+        "end_date":   { "type": "string" }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": true
+    },
+    "AllocationEntry": {
+      "type": "object",
+      "properties": {
+        "date":                    { "type": "string" },
+        "billable_planned_hours":  { "type": "number" },
+        "internal_planned_hours":  { "type": "number" },
+        "total_hours":             { "type": "number" }
+      },
+      "required": ["date", "total_hours"],
+      "additionalProperties": true
+    },
+    "PersonAllocation": {
+      "type": "object",
+      "properties": {
+        "person_id":               { "type": "string" },
+        "person_name":             { "type": "string" },
+        "billable_planned_hours":  { "type": "number" },
+        "internal_planned_hours":  { "type": "number" },
+        "total_hours":             { "type": "number" },
+        "entries":                 { "type": "array", "items": { "$ref": "#/$defs/AllocationEntry" } }
+      },
+      "required": ["person_id", "total_hours"],
+      "additionalProperties": true
+    }
+  },
+  "title": "ParallaxAllocations",
+  "description": "Planned hours per person from /api/people/utilization. Project-level breakdown is not available via the Insights API.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "allocations" },
+    "since":        { "type": "string" },
+    "until":        { "type": "string" },
+    "range":        { "$ref": "#/$defs/DateRange" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total_hours":             { "type": "number" },
+        "billable_planned_hours":  { "type": "number" },
+        "internal_planned_hours":  { "type": "number" },
+        "active_people":           { "type": "integer" }
+      },
+      "required": ["total_hours", "active_people"],
+      "additionalProperties": true
+    },
+    "by_person": { "type": "array", "items": { "$ref": "#/$defs/PersonAllocation" } },
+    "items":     { "type": "array", "items": { "$ref": "#/$defs/PersonAllocation" } }
+  },
+  "required": ["category", "range", "generated_at", "counts", "by_person", "items"],
+  "additionalProperties": true
+}

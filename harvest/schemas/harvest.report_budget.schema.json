@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ProjectBudget": {
+      "type": "object",
+      "description": "Budget status for a single project. budget_by controls the unit: project (hours or money), task (hours), person (hours).",
+      "properties": {
+        "client_id":         { "type": ["integer", "null"] },
+        "client_name":       { "type": ["string", "null"] },
+        "project_id":        { "type": "integer" },
+        "project_name":      { "type": "string" },
+        "budget_is_monthly": { "type": ["boolean", "null"], "description": "True if budget resets monthly" },
+        "budget_by":         {
+          "type": ["string", "null"],
+          "enum": ["project", "project_cost", "task", "task_fees", "person", null],
+          "description": "What the budget tracks"
+        },
+        "budget":           { "type": ["number", "null"], "description": "Total budget (hours or money depending on budget_by)" },
+        "budget_spent":     { "type": ["number", "null"] },
+        "budget_remaining": { "type": ["number", "null"] }
+      },
+      "required": ["project_id", "project_name"],
+      "additionalProperties": true
+    }
+  },
+  "title": "HarvestReportBudget",
+  "description": "Budget spent and remaining per project. Output of scripts/report-budget.py. No date range — reflects current budget state.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "project_budget" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total_projects": { "type": "integer" }
+      },
+      "required": ["total_projects"],
+      "additionalProperties": false
+    },
+    "projects": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ProjectBudget" }
+    }
+  },
+  "required": ["category", "generated_at", "counts", "projects"],
+  "additionalProperties": false
+}

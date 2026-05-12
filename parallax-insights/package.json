@@ -1,0 +1,10 @@
+{
+  "name": "parallax-insights",
+  "version": "0.1.0",
+  "description": "Python scripts covering the Parallax Insights API — time entries, allocations, people financials, project financials, and pipeline data.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": ["./SKILL.md"]
+  },
+  "files": ["SKILL.md", "README.md", "scripts", "schemas"]
+}

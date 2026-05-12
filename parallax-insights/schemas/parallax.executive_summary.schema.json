@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "description": "Date range present on all Parallax reports.",
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string" },
+        "end_date":   { "type": "string" },
+        "since":      { "type": ["string", "null"], "default": null },
+        "until":      { "type": ["string", "null"], "default": null }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": true
+    },
+    "PersonSummary": {
+      "type": "object",
+      "properties": {
+        "person_id":       { "type": "string" },
+        "name":            { "type": "string" },
+        "logged_hours":    { "type": "number" },
+        "billable_hours":  { "type": "number" },
+        "entries":         { "type": "integer" },
+        "allocated_hours": { "type": ["number", "null"] },
+        "pct_logged":      { "type": ["number", "null"] }
+      },
+      "required": ["person_id", "name", "logged_hours", "billable_hours", "entries"],
+      "additionalProperties": true
+    }
+  },
+  "title": "ParallaxExecutiveSummary",
+  "type": "object",
+  "properties": {
+    "schema_version": { "type": "string" },
+    "generated_at":   { "type": "string" },
+    "range":          { "$ref": "#/$defs/DateRange" },
+    "target": {
+      "type": "object",
+      "properties": {
+        "mode":       { "type": "string", "enum": ["account", "person", "people"] },
+        "slug":       { "type": "string" },
+        "person_ids": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["mode", "slug"],
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "counts": {
+          "type": "object",
+          "properties": {
+            "total_hours":        { "type": "number" },
+            "billable_hours":     { "type": "number" },
+            "non_billable_hours": { "type": "number" },
+            "billable_pct":       { "type": "number" },
+            "allocated_hours":    { "type": ["number", "null"] },
+            "total_entries":      { "type": "integer" },
+            "active_people":      { "type": "integer" },
+            "active_projects":    { "type": ["integer", "null"] }
+          },
+          "required": ["total_hours", "billable_hours", "non_billable_hours", "billable_pct", "total_entries", "active_people"],
+          "additionalProperties": true
+        },
+        "top_people": { "type": "array", "items": { "$ref": "#/$defs/PersonSummary" } }
+      },
+      "required": ["counts", "top_people"],
+      "additionalProperties": true
+    },
+    "time_entries": { "type": "object", "additionalProperties": true },
+    "allocations":  { "type": ["object", "null"], "additionalProperties": true },
+    "people":       { "type": "object", "additionalProperties": true },
+    "projects":     { "type": "object", "additionalProperties": true }
+  },
+  "required": ["schema_version", "generated_at", "range", "target", "summary", "time_entries", "people", "projects"],
+  "additionalProperties": true
+}

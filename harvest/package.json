@@ -1,0 +1,10 @@
+{
+  "name": "harvest",
+  "version": "0.1.0",
+  "description": "Python scripts covering the complete Harvest API v2 — time entries, reports, invoices, expenses, and account data.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": ["./SKILL.md"]
+  },
+  "files": ["SKILL.md", "scripts"]
+}

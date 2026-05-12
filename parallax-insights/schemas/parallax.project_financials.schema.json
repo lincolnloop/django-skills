@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string" },
+        "end_date":   { "type": "string" }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": true
+    },
+    "FinancialPeriod": {
+      "description": "Financial breakdown for a single date period.",
+      "type": "object",
+      "properties": {
+        "actual_hours":      { "type": ["number", "null"] },
+        "actual_revenue":    { "type": ["number", "null"] },
+        "actual_margin":     { "type": ["number", "null"] },
+        "actual_cost":       { "type": ["number", "null"] },
+        "planned_hours":     { "type": ["number", "null"] },
+        "planned_revenue":   { "type": ["number", "null"] },
+        "planned_margin":    { "type": ["number", "null"] },
+        "planned_cost":      { "type": ["number", "null"] },
+        "projected_hours":   { "type": ["number", "null"] },
+        "projected_revenue": { "type": ["number", "null"] },
+        "projected_margin":  { "type": ["number", "null"] },
+        "projected_cost":    { "type": ["number", "null"] },
+        "forecast_hours":    { "type": ["number", "null"] },
+        "forecast_revenue":  { "type": ["number", "null"] },
+        "forecast_margin":   { "type": ["number", "null"] },
+        "forecast_cost":     { "type": ["number", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "ProjectRole": {
+      "description": "Present only when mode=role.",
+      "type": "object",
+      "properties": {
+        "id":            { "type": "string" },
+        "role":          { "type": ["string", "null"] },
+        "department":    { "type": ["string", "null"] },
+        "person_name":   { "type": ["string", "null"] },
+        "email_address": { "type": ["string", "null"] },
+        "worker_type":   { "type": ["string", "null"] },
+        "bill_rate":     { "type": ["number", "null"] },
+        "periods": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/FinancialPeriod" }
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    },
+    "Offering": {
+      "type": "object",
+      "properties": {
+        "id":             { "type": "string" },
+        "name":           { "type": ["string", "null"] },
+        "financial_model":{ "type": ["string", "null"] },
+        "crm_id":         { "type": ["string", "null"] },
+        "timesheet_id":   { "type": ["string", "null"] },
+        "totals":         { "$ref": "#/$defs/FinancialPeriod" },
+        "periods": {
+          "type": "object",
+          "description": "Keys are date strings (YYYY-MM-DD). Present when mode=offering.",
+          "additionalProperties": { "$ref": "#/$defs/FinancialPeriod" }
+        },
+        "project_roles": {
+          "type": "array",
+          "description": "Present when mode=role.",
+          "items": { "$ref": "#/$defs/ProjectRole" }
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    },
+    "ProjectFinancials": {
+      "type": "object",
+      "properties": {
+        "id":                  { "type": "string" },
+        "name":                { "type": ["string", "null"] },
+        "client_name":         { "type": ["string", "null"] },
+        "start_date":          { "type": ["string", "null"] },
+        "end_date":            { "type": ["string", "null"] },
+        "project_status":      { "type": ["string", "null"] },
+        "project_risk":        { "type": ["string", "null"] },
+        "stage_name":          { "type": ["string", "null"] },
+        "tags":                { "type": "array", "items": { "type": "string" } },
+        "target_budget":       { "type": ["number", "null"] },
+        "target_margin":       { "type": ["number", "null"] },
+        "crm_id":              { "type": ["string", "null"] },
+        "custom_external_ids": { "type": ["object", "array", "null"] },
+        "project_owner":       { "type": ["string", "null"] },
+        "sales_owner":         { "type": ["string", "null"] },
+        "offerings":           { "type": "array", "items": { "$ref": "#/$defs/Offering" } }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    }
+  },
+  "title": "ParallaxProjectFinancials",
+  "description": "Project financials broken down by offering or by project role per date period. mode=offering uses /api/projects/financials/by-offering; mode=role uses /api/projects/financials/by-role. Comparable to the Parallax Revenue and Margin Overview reports.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "enum": ["project_financials_by_offering", "project_financials_by_role"] },
+    "mode":         { "type": "string", "enum": ["offering", "role"] },
+    "since":        { "type": "string" },
+    "until":        { "type": "string" },
+    "range":        { "$ref": "#/$defs/DateRange" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total_projects":        { "type": "integer" },
+        "total_actual_hours":    { "type": "number" },
+        "total_actual_revenue":  { "type": "number" },
+        "total_planned_hours":   { "type": "number" },
+        "total_planned_revenue": { "type": "number" }
+      },
+      "required": ["total_projects"],
+      "additionalProperties": true
+    },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/ProjectFinancials" } }
+  },
+  "required": ["category", "mode", "range", "generated_at", "counts", "items"],
+  "additionalProperties": true
+}

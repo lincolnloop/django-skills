@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "UptimeCheckSummary": {
+      "type": "object",
+      "description": "Condensed uptime check as returned in checks_down/checks_up/checks_paused.",
+      "properties": {
+        "id":          { "type": ["integer", "string"] },
+        "name":        { "type": ["string", "null"] },
+        "website_url": { "type": ["string", "null"] },
+        "test_type":   { "type": ["string", "null"], "description": "HTTP, TCP, PING, etc." },
+        "uptime":      { "type": ["number", "null"], "description": "Uptime percentage 0–100" },
+        "check_rate":  { "type": ["integer", "null"], "description": "Check interval in seconds" },
+        "tags":        { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  },
+  "title": "StatusCakeUptimeChecks",
+  "description": "All uptime checks with status aggregations. Output of scripts/list-uptime.py.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "uptime_checks" },
+    "generated_at": { "type": "string" },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "tag":    { "type": ["string", "null"] },
+        "status": { "type": ["string", "null"], "enum": ["up", "down", null] }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total":           { "type": "integer" },
+        "up":              { "type": "integer" },
+        "down":            { "type": "integer" },
+        "paused":          { "type": "integer" },
+        "avg_uptime_pct":  { "type": ["number", "null"], "description": "Average uptime % across active monitors" }
+      },
+      "required": ["total", "up", "down", "paused"],
+      "additionalProperties": false
+    },
+    "checks_down":   { "type": "array", "items": { "$ref": "#/$defs/UptimeCheckSummary" } },
+    "checks_up":     { "type": "array", "items": { "$ref": "#/$defs/UptimeCheckSummary" }, "description": "Sorted descending by uptime %" },
+    "checks_paused": { "type": "array", "items": { "$ref": "#/$defs/UptimeCheckSummary" } }
+  },
+  "required": ["category", "generated_at", "filters", "counts", "checks_down", "checks_up", "checks_paused"],
+  "additionalProperties": false
+}

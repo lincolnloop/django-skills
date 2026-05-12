@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SlackUser": {
+      "type": "object",
+      "properties": {
+        "id":           { "type": ["string", "null"] },
+        "name":         { "type": ["string", "null"], "description": "Username (handle)" },
+        "real_name":    { "type": ["string", "null"] },
+        "display_name": { "type": ["string", "null"] },
+        "email":        { "type": ["string", "null"] },
+        "is_admin":     { "type": ["boolean", "null"] },
+        "is_owner":     { "type": ["boolean", "null"] },
+        "is_bot":       { "type": ["boolean", "null"] },
+        "tz":           { "type": ["string", "null"], "description": "IANA timezone name" }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  },
+  "title": "SlackUsers",
+  "description": "Workspace members. Output of scripts/list-users.py. Sorted by real_name. Bots excluded by default.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "users" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": { "total": { "type": "integer" } },
+      "required": ["total"],
+      "additionalProperties": false
+    },
+    "users": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SlackUser" }
+    }
+  },
+  "required": ["category", "generated_at", "counts", "users"],
+  "additionalProperties": false
+}

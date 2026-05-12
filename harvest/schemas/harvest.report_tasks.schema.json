@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string" },
+        "end_date":   { "type": "string" }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": false
+    },
+    "TaskResult": {
+      "type": "object",
+      "properties": {
+        "task_id":        { "type": "integer" },
+        "task_name":      { "type": "string" },
+        "total_hours":    { "type": ["number", "null"] },
+        "billable_hours": { "type": ["number", "null"] },
+        "billable_amount":{ "type": ["number", "null"] },
+        "currency":       { "type": ["string", "null"] }
+      },
+      "required": ["task_id", "task_name"],
+      "additionalProperties": true
+    }
+  },
+  "title": "HarvestReportTasks",
+  "description": "Hours and billable amounts per task type for a date range. Output of scripts/report-tasks.py.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "tasks" },
+    "since":        { "type": "string" },
+    "until":        { "type": "string" },
+    "range":        { "$ref": "#/$defs/DateRange" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "active_tasks":   { "type": "integer" },
+        "total_hours":    { "type": "number" },
+        "billable_hours": { "type": "number" }
+      },
+      "required": ["active_tasks", "total_hours", "billable_hours"],
+      "additionalProperties": false
+    },
+    "tasks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TaskResult" },
+      "description": "One entry per task type with logged time, sorted descending by total_hours"
+    }
+  },
+  "required": ["category", "range", "generated_at", "counts", "tasks"],
+  "additionalProperties": false
+}

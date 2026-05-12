@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DateRange": {
+      "type": "object",
+      "properties": {
+        "start_date": { "type": "string" },
+        "end_date":   { "type": "string" }
+      },
+      "required": ["start_date", "end_date"],
+      "additionalProperties": false
+    },
+    "TeamMember": {
+      "type": "object",
+      "properties": {
+        "user_id":        { "type": "integer" },
+        "user_name":      { "type": "string" },
+        "is_contractor":  { "type": ["boolean", "null"] },
+        "total_hours":    { "type": ["number", "null"] },
+        "billable_hours": { "type": ["number", "null"] },
+        "billable_amount":{ "type": ["number", "null"], "description": "Billable amount in the account currency" }
+      },
+      "required": ["user_id", "user_name"],
+      "additionalProperties": true
+    }
+  },
+  "title": "HarvestReportTeam",
+  "description": "Hours and billable amounts per team member for a date range. Output of scripts/report-team.py. Requires Manager or Administrator access.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "team" },
+    "since":        { "type": "string" },
+    "until":        { "type": "string" },
+    "range":        { "$ref": "#/$defs/DateRange" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "active_users":   { "type": "integer" },
+        "total_hours":    { "type": "number" },
+        "billable_hours": { "type": "number" }
+      },
+      "required": ["active_users", "total_hours", "billable_hours"],
+      "additionalProperties": false
+    },
+    "members": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TeamMember" },
+      "description": "One entry per team member who logged time, sorted descending by total_hours"
+    }
+  },
+  "required": ["category", "range", "generated_at", "counts", "members"],
+  "additionalProperties": false
+}

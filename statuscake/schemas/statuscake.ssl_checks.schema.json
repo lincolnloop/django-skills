@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SslCheck": {
+      "type": "object",
+      "properties": {
+        "id":               { "type": ["integer", "string"] },
+        "website_url":      { "type": ["string", "null"] },
+        "check_rate":       { "type": ["integer", "null"], "description": "Check interval in seconds" },
+        "paused":           { "type": ["boolean", "null"] },
+        "status":           { "type": ["string", "null"], "description": "VALID, BROKEN, MIXED, or EXPIRED" },
+        "alert_at":         { "type": "array", "items": { "type": "integer" }, "description": "Days before expiry to alert (exactly 3 values)" },
+        "alert_broken":     { "type": ["boolean", "null"] },
+        "alert_expiry":     { "type": ["boolean", "null"] },
+        "alert_mixed":      { "type": ["boolean", "null"] },
+        "alert_reminder":   { "type": ["boolean", "null"] },
+        "expires_at":       { "type": ["string", "null"], "description": "Certificate expiry datetime (RFC3339)" },
+        "issuer_cn":        { "type": ["string", "null"] },
+        "cipher":           { "type": ["string", "null"] },
+        "contact_groups":   { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    }
+  },
+  "title": "StatusCakeSslChecks",
+  "description": "All SSL certificate checks. Output of scripts/list-ssl.py. Sorted alphabetically by website_url.",
+  "type": "object",
+  "properties": {
+    "category":     { "type": "string", "const": "ssl_checks" },
+    "generated_at": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total":   { "type": "integer" },
+        "valid":   { "type": "integer" },
+        "invalid": { "type": "integer" },
+        "paused":  { "type": "integer" }
+      },
+      "required": ["total", "valid", "invalid", "paused"],
+      "additionalProperties": false
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SslCheck" }
+    }
+  },
+  "required": ["category", "generated_at", "counts", "items"],
+  "additionalProperties": false
+}
