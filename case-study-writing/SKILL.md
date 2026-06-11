@@ -100,7 +100,7 @@ The user is here to help. Draw questions from the interview script in [template.
 - **Explore first**: if a question can be answered by exploring the codebase or git history, explore instead of asking.
 - **One question at a time**: never a batch of topics in a single message.
 - **Provide a recommended answer** with each question, based on what you inferred from steps 1-3, so the user can confirm or correct rather than start from scratch.
-- Prefer multiple choice questions where options are discrete (use a structured question tool if the agent provides one); otherwise ask conversationally.
+- When the answer options are discrete, you MUST present them as structured multiple choice using the agent's question tool (the tool for collecting structured multiple-choice answers from the user), not as options listed in plain chat text. Fall back to conversational questions only when no such tool exists or the question is genuinely open-ended.
 
 Prioritize the gaps you could NOT fill yourself:
 
