@@ -12,6 +12,16 @@ The user wants a Lincoln Loop case study for the client project open in the curr
 
 Steps may be skipped when they add nothing (e.g. skip running locally or web research when the codebase, git history, and user answers already provide enough material).
 
+## Resuming a Previous Run
+
+Before starting from scratch, check `docs/case-studies/` for an existing case study markdown for this client. If one exists, ask the user whether to resume instead of redoing the research and interview:
+
+- **Recompile only**: the markdown is approved and only the .docx needs regenerating (e.g. after a skill, style, or reference.docx update). Jump straight to the Output step.
+- **Revise**: the user wants changes to specific sections. Jump to Step 7 for those sections only, then re-run Step 8 and the Output step.
+- **Start over**: treat the existing file as stale input and run the full workflow.
+
+The markdown file and its assets folder are the durable state; everything needed to recompile lives there.
+
 ## Dependencies
 
 Check availability early and tell the user about any gaps instead of failing mid-workflow:
@@ -113,6 +123,7 @@ The case study must be close to final public-facing marketing material, so inclu
 - **Fall back to screenshots**: if the Figma MCP is unavailable or access to the file is denied, report that to the user and ask them (or the designer through them) for exported screenshots instead.
 - **Capture from the running app**: reuse or take screenshots from Step 3 for before/after pairs and feature highlights.
 - Save every gathered visual to `docs/case-studies/assets/<client-slug>/` with descriptive filenames; the markdown and .docx outputs reference them from there.
+- **Resolution matters in the .docx**: export Figma frames at 2x and capture screenshots at full window size. Never use an image narrower than ~1200px for full-width placement; a small image stretched across the page renders blurry in Word and Google Docs.
 - Aim for a visual per major section (Challenge, Solution, Results) plus before/after pairs, each with a descriptive caption per [style.md](style.md).
 - Do not proceed to drafting a section that clearly needs a visual without first requesting one.
 
@@ -138,7 +149,18 @@ Writing guidance (STAR maps onto the template):
 - **Solution** = Action: approach, collaboration, key features, timeline; highlight anything innovative
 - **Results** = Result: data-driven, before/after metrics with timeframes
 
-Target 800-1200 words for the narrative sections. Keep it skimmable: headers, bold, bullets. Embed the visuals gathered in Step 5 inline (markdown image references with captions) where they support the narrative.
+Target 800-1200 words for the narrative sections. Keep it skimmable: headers, bold, bullets. Embed the visuals gathered in Step 5 inline (markdown image references with captions) where they support the narrative. Give every image an explicit pandoc width attribute so sizing in the .docx is deliberate: `![Caption](assets/<client-slug>/shot.png){width=6in}` for landscape, ~3-4in for portrait shots.
+
+End each snapshot field line with a backslash so the line breaks survive the .docx conversion (soft line breaks collapse into spaces):
+
+```markdown
+**Client:** Wharton Generative AI Labs\
+**Project URL:** gail.wharton.upenn.edu\
+**Duration:** 4 weeks, part of an ongoing relationship\
+**Industries:** Higher Education, EdTech, AI Research\
+**Services:** Design Systems, Next.js / React Development\
+**Technology:** Next.js, React, TypeScript, Tailwind CSS
+```
 
 ### Step 8: Review
 
@@ -177,12 +199,16 @@ All artifacts live in the current project under `docs/case-studies/` (create it 
 
 1. **Markdown source**: `docs/case-studies/YYYY-MM-DD-<client-slug>.md`, the final approved case study.
 2. **Image assets**: save all gathered visuals (Figma exports, screenshots) to `docs/case-studies/assets/<client-slug>/` and reference them from the markdown with relative paths, so the document is self-contained.
-3. **Compiled .docx**: convert the markdown to a complete Word document with embedded imagery and working hyperlinks:
+3. **Compiled .docx**: convert the markdown to a complete Word document with embedded imagery and working hyperlinks, using the branded `reference.docx` bundled in this skill's directory (it carries the Lincoln Loop fonts, heading styles, header/footer, and Google Docs-compatible style definitions):
 
 ```bash
 pandoc "docs/case-studies/YYYY-MM-DD-<client-slug>.md" \
+  --from markdown-auto_identifiers \
   --resource-path="docs/case-studies" \
+  --reference-doc="<this-skill-directory>/reference.docx" \
   -o "docs/case-studies/YYYY-MM-DD-<client-slug>.docx"
 ```
+
+Verify pandoc printed no `Could not fetch resource` warnings; each one means a missing image in the .docx.
 
 If pandoc is missing, ask the user before installing it with the system's package manager (e.g. `brew install pandoc` on macOS, `apt install pandoc` on Debian/Ubuntu, `winget install pandoc` on Windows). After compiling, open or point the user to the .docx so they can verify images and links rendered correctly.
