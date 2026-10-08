@@ -1,0 +1,10 @@
+{
+  "name": "celery",
+  "version": "0.1.0",
+  "description": "Recipe of Celery idioms for Django projects — task argument serialisation and concurrency rules, stated as Do/Why/Except and layered above django-development.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": ["./SKILL.md"]
+  },
+  "files": ["SKILL.md", "README.md"]
+}

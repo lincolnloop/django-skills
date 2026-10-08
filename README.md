@@ -1,4 +1,4 @@
-# agent-skills
+# django-skills
 
 A collection of skills for [Claude Code](https://claude.ai/code), installable via the
 [vercel-labs/skills](https://github.com/vercel-labs/skills) CLI.
@@ -35,6 +35,8 @@ on staying up to date.
 |---|---|
 | [`django-layout`](django-layout/) | Scaffold a production-ready Django project with uv, Docker, PostgreSQL, Redis, Celery, and htmx |
 | [`django-code-review`](django-code-review/) | Structured Django code review using focused playbooks for migrations, querysets, signals, Celery, security, and more |
+| [`django-development`](django-development/) | General Django idioms for models, views, templates, and tests — each rule stated as a Do/Why/Except to apply while generating code |
+| [`celery`](celery/) | Celery idioms for Django projects — task argument serialisation and concurrency rules, layered above `django-development` |
 
 ---
 
@@ -42,16 +44,16 @@ on staying up to date.
 
 ```bash
 # Install a single skill into the current project
-npx skills add lincoln-loop/agent-skills --skill harvest
+npx skills add lincoln-loop/django-skills --skill harvest
 
 # Install globally (available in every project)
-npx skills add lincoln-loop/agent-skills --skill harvest --global
+npx skills add lincoln-loop/django-skills --skill harvest --global
 
 # Interactive — choose skills, target agents, and install mode
-npx skills add lincoln-loop/agent-skills
+npx skills add lincoln-loop/django-skills
 
 # Non-interactive (CI / scripted)
-npx skills add lincoln-loop/agent-skills --skill harvest -a claude-code -y
+npx skills add lincoln-loop/django-skills --skill harvest -a claude-code -y
 ```
 
 ### Prerequisites
