@@ -4,6 +4,11 @@ A recipe for thorough Django code reviews. When installed and activated, Claude 
 structured process: reading the PR description, applying focused playbooks for each area of the
 codebase touched, and producing a graded findings report.
 
+Each playbook is a set of rule cards in the same shape as [`django-development`](../django-development/):
+**Do/Don't**, **Why** (the mechanism, citing source or docs), **Except**, and **Evidence**. A few
+cards cross-reference `django-development` or the `celery` skill directly, where a review check
+is really the same rule from those skills applied at review time rather than write time.
+
 > **This is a recipe, not a tool.** It works as-is, but its real value is as a starting point.
 > The `SKILL.md` contains a placeholder for your project's code standards — you should replace
 > it with the actual conventions from your `CLAUDE.md`. The playbooks in `references/` are
@@ -31,13 +36,13 @@ Each playbook in `references/` applies to a specific area of the diff:
 ## Installation
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill code-review
+npx skills add lincoln-loop/django-skills --skill django-code-review
 ```
 
 Or globally:
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill code-review --global
+npx skills add lincoln-loop/django-skills --skill django-code-review --global
 ```
 
 Once installed, trigger it by asking Claude to:
@@ -54,7 +59,9 @@ specific patterns.
 Beyond that:
 
 - **Trim playbooks you don't need** — if you don't use Celery, remove `celery.md` from the
-  table and delete the file.
+  table and delete the file. Several playbooks cross-reference each other (and
+  `django-development`/`celery`) for a related check — grep for the filename you're deleting
+  before removing it, and drop the dangling reference along with it.
 - **Add project-specific playbooks** — create new files in `references/` for patterns that
   matter in your codebase (e.g. a REST API serializer playbook, a custom permissions playbook).
 - **Tighten the migration playbook** — `references/migrations.md` covers blue-green deployment
