@@ -45,9 +45,21 @@ Or globally:
 npx skills add lincoln-loop/django-skills --skill django-code-review --global
 ```
 
-Once installed, trigger it by asking Claude to:
+## Using it
+
+This is a **task** skill: asking for a review triggers it.
 
 > "Review this PR" / "Do a code review" / "Review these changes"
+
+You can narrow the scope or point it at specific changes:
+
+> "Review the last three commits, focusing on the migrations."
+>
+> "Review PR #42 — the author says the cache invalidation is deliberately incomplete."
+
+Telling it what's intentionally out of scope matters: the skill won't raise issues the change
+doesn't set out to address. In Claude Code you can also run it directly with
+`/django-code-review`.
 
 ## Customising for your project
 

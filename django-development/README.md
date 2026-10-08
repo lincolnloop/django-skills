@@ -31,8 +31,30 @@ Or globally:
 npx skills add lincoln-loop/django-skills --skill django-development --global
 ```
 
-Once installed, it's consulted automatically before or while Claude writes Django code —
-models, views, templates, forms, admin, signals, management commands, or tests.
+## Using it
+
+This is a **background** skill: nobody asks for it by name, so the agent has to match the code
+it's writing against the skill's description. To make that dependable, add the pointer from the
+[root README](../README.md#make-background-skills-dependable) to your project's `AGENTS.md` or
+`CLAUDE.md`.
+
+Prompts where it should apply:
+
+> "Add a list view for published articles, with the author's name on each row."
+>
+> "Move the article card into its own include so the sidebar can reuse it."
+>
+> "Write a management command that clears and reloads the categories table."
+
+Each touches a rule here, respectively:
+- handing model instances to the template and not re-adding what the context already provides;
+- re-declaring `{% load %}` in an extracted include;
+- auditing cascades before a bulk clear. To be certain the skill is used, name it:
+
+> "Use django-development while you write the article list view."
+
+If it isn't being picked up, see
+[When a skill doesn't trigger](../README.md#when-a-skill-doesnt-trigger).
 
 ## Adapting for your project
 

@@ -45,11 +45,16 @@ Or globally:
 npx skills add lincoln-loop/django-skills --skill django-layout --global
 ```
 
-Once installed, trigger it by asking Claude to:
+## Using it
+
+This is a **task** skill: asking for a new project triggers it.
 
 > "Create a new Django project called myproject"
 
 Claude will confirm the project name and ask which add-ons you want before generating anything.
+You can say what you want up front, and it will still confirm the full list before generating:
+
+> "Create a Django project called shop with Celery and S3 storage, no htmx."
 
 ## Customising for your environment
 
