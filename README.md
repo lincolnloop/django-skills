@@ -64,3 +64,12 @@ improvements. There is no fixed template; see any existing skill for the shape t
 
 Open a pull request with your skill in its own top-level directory. Add a row to the table in
 this README so it shows up in the index.
+
+### Importing improvements from a project
+
+Installed recipes get refined in the projects that use them. To bring general improvements back
+here, maintainers use [`maintainers/import-skill`](maintainers/import-skill/). It compares a
+project's local copies of these skills with this collection and proposes the general changes as a
+pull request. It only reads rules the project has already distilled, so it never reads the
+project's pull requests, issues or code, and nothing in this repository records where a rule came
+from. It isn't installable.
