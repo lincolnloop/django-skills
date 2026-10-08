@@ -33,7 +33,7 @@ on staying up to date.
 
 | Skill | Description |
 |---|---|
-| [`django-layout`](django-layout/) | Scaffold a production-ready Django project with uv, Docker, PostgreSQL, Redis, Celery, and htmx |
+| [`django-layout`](django-layout/) | Scaffold a production-ready Django project with uv, Docker, and PostgreSQL — asks which optional add-ons (Celery, S3, auth, htmx, Sentry, dev tools) to include before generating |
 | [`django-code-review`](django-code-review/) | Structured Django code review using focused playbooks for migrations, querysets, signals, Celery, security, and more |
 | [`django-development`](django-development/) | General Django idioms for models, views, templates, and tests — each rule stated as a Do/Why/Except to apply while generating code |
 | [`celery`](celery/) | Celery idioms for Django projects — task argument serialisation and concurrency rules, layered above `django-development` |
