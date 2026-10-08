@@ -1,4 +1,4 @@
-# agent-skills
+# django-skills
 
 A focused collection of Django skills for [Claude Code](https://claude.ai/code), installable
 via the [vercel-labs/skills](https://github.com/vercel-labs/skills) CLI.
@@ -37,16 +37,16 @@ time rather than write time.
 
 ```bash
 # Install a single skill into the current project
-npx skills add lincoln-loop/agent-skills --skill django-development
+npx skills add lincoln-loop/django-skills --skill django-development
 
 # Install globally (available in every project)
-npx skills add lincoln-loop/agent-skills --skill django-development --global
+npx skills add lincoln-loop/django-skills --skill django-development --global
 
 # Interactive — choose skills, target agents, and install mode
-npx skills add lincoln-loop/agent-skills
+npx skills add lincoln-loop/django-skills
 
 # Non-interactive (CI / scripted)
-npx skills add lincoln-loop/agent-skills --skill django-development -a claude-code -y
+npx skills add lincoln-loop/django-skills --skill django-development -a claude-code -y
 ```
 
 ### Prerequisites
