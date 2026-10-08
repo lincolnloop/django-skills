@@ -1,7 +1,7 @@
 {
   "name": "django-code-review",
-  "version": "1.0.0",
-  "description": "Recipe for thorough Django code reviews — catches bugs, design problems, and project standard violations using focused playbooks for migrations, querysets, signals, Celery, caching, security, and more.",
+  "version": "2.0.0",
+  "description": "Recipe for thorough Django code reviews — catches bugs, design problems, and project standard violations using focused playbooks (Do/Why/Except/Evidence rule cards, matching django-development) for migrations, querysets, signals, Celery, caching, security, and more.",
   "keywords": ["pi-package"],
   "pi": {
     "skills": ["./SKILL.md"]

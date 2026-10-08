@@ -1,7 +1,7 @@
 ---
 name: django-code-review
 description: Performs a thorough Django code review catching real bugs, design problems, and project standard violations. Use when the user asks to "review this code", "review these changes", "review this PR", "do a code review", or asks for feedback on a diff or pull request.
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Django Code Review
@@ -11,6 +11,11 @@ violations of project standards — not to nitpick style or flag issues the lint
 automatically.
 
 Do not raise issues that are intentionally out of scope for the stated change.
+
+Each playbook below is a set of rule cards in the same shape as `django-development`:
+**Do/Don't**, **Why** (the mechanism, citing Django/PostgreSQL/Python source or docs), **Except**
+(where the rule stops applying), and **Evidence** (what grounds it). Reviewing with a playbook
+means checking the diff against each of its cards, not just skimming for the general area.
 
 ---
 
