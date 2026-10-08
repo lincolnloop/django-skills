@@ -36,13 +36,13 @@ Each playbook in `references/` applies to a specific area of the diff:
 ## Installation
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-code-review
+npx skills add lincoln-loop/django-skills --skill django-code-review
 ```
 
 Or globally:
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-code-review --global
+npx skills add lincoln-loop/django-skills --skill django-code-review --global
 ```
 
 Once installed, trigger it by asking Claude to:
