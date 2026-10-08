@@ -1,0 +1,10 @@
+{
+  "name": "django-development",
+  "version": "0.2.0",
+  "description": "Recipe of general Django development idioms — models, views, templates, and tests — organised by framework layer, each rule stated as a Do/Why/Except so Claude can apply it while generating code.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": ["./SKILL.md"]
+  },
+  "files": ["SKILL.md", "README.md"]
+}

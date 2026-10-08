@@ -35,6 +35,7 @@ on staying up to date.
 |---|---|
 | [`django-layout`](django-layout/) | Scaffold a production-ready Django project with uv, Docker, PostgreSQL, Redis, Celery, and htmx |
 | [`django-code-review`](django-code-review/) | Structured Django code review using focused playbooks for migrations, querysets, signals, Celery, security, and more |
+| [`django-development`](django-development/) | General Django idioms for models, views, templates, and tests — each rule stated as a Do/Why/Except to apply while generating code |
 
 ---
 
