@@ -34,8 +34,20 @@ npx skills add lincoln-loop/django-skills --skill django-development
 npx skills add lincoln-loop/django-skills --skill celery
 ```
 
-Once installed, it's consulted automatically before or while Claude writes Celery task
-definitions (`@shared_task`) or call sites (`.delay()`, `.apply_async()`).
+## Using it
+
+Like `django-development`, this is a **background** skill. It applies while the agent writes
+task definitions (`@shared_task`) or call sites (`.delay()`, `.apply_async()`), without being
+asked for. Add the pointer from the
+[root README](../README.md#make-background-skills-dependable) to your project's instructions
+file to make that dependable.
+
+A prompt where it should apply:
+
+> "Send the welcome email from a Celery task when a user signs up."
+
+Here the skill steers the call to `send_welcome_email.delay(user.pk)`, with the task re-fetching
+the user, rather than passing the `User` instance.
 
 ## Adapting for your project
 

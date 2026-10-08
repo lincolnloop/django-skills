@@ -55,6 +55,60 @@ npx skills add lincoln-loop/django-skills --skill django-development -a claude-c
 
 ---
 
+## Using the skills
+
+Installing a skill makes it *available*. Whether an agent actually uses it depends on which kind
+of skill it is.
+
+| Kind | Skills | Triggered by |
+|---|---|---|
+| **Task** | `django-code-review`, `django-layout` | What you ask for: "review this PR" matches the skill's description |
+| **Background** | `django-development`, `celery` | The agent noticing, mid-task, that the code it's writing matches the skill's description |
+
+Task skills rarely get missed, because your request names the task. Background skills are the
+ones that can be skipped: nobody asks for them, so the agent has to make the connection itself.
+
+### Make background skills dependable
+
+Add a few lines to your project's always-loaded instructions file (`AGENTS.md`, `CLAUDE.md`, or
+your agent's equivalent):
+
+```markdown
+## Skills
+- Before writing or changing Django code, consult the `django-development` skill, and the
+  `celery` skill for task definitions and call sites.
+- Rules in this file and in project skills override both.
+- Use `django-code-review` for any code review request.
+```
+
+This turns "the agent might notice" into a standing instruction. It's also the natural place to
+start your project layer: the precedence model gives rules here priority over the recipes.
+
+### Invoke a skill explicitly
+
+When it matters, don't rely on matching. Name the skill:
+
+> "Use the django-development skill while you write this view."
+
+In Claude Code, skills can also be run directly as slash commands, e.g. `/django-code-review`.
+
+### Check that a skill was used
+
+Claude Code shows each skill as it loads, in the session transcript. If a skill you expected
+doesn't appear, it wasn't used. With other agents, ask which skills they consulted.
+
+### When a skill doesn't trigger
+
+In order of effort:
+
+1. Add the pointer above to your instructions file.
+2. Invoke the skill by name for the task at hand.
+3. Edit the `description` in your local copy of the skill's `SKILL.md`. Agents choose skills by
+   matching the description, so mention the work your team actually does (e.g. "DRF serializers",
+   "htmx views"). These are recipes, so adapting your copy is expected.
+
+---
+
 ## Contributing
 
 Contributions are welcome, within scope: Django idioms, review playbooks, and project-scaffold
