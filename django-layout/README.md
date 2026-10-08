@@ -36,13 +36,13 @@ your first few commits are spent ripping out packages you didn't want.
 ## Installation
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-layout
+npx skills add lincoln-loop/django-skills --skill django-layout
 ```
 
 Or globally:
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-layout --global
+npx skills add lincoln-loop/django-skills --skill django-layout --global
 ```
 
 Once installed, trigger it by asking Claude to:
