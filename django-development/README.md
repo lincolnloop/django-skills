@@ -22,13 +22,13 @@ writing — models, views, templates, tests.
 ## Installation
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-development
+npx skills add lincoln-loop/django-skills --skill django-development
 ```
 
 Or globally:
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-development --global
+npx skills add lincoln-loop/django-skills --skill django-development --global
 ```
 
 Once installed, it's consulted automatically before or while Claude writes Django code —

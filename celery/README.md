@@ -18,20 +18,20 @@ own `project-conventions`.
 ## Installation
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill celery
+npx skills add lincoln-loop/django-skills --skill celery
 ```
 
 Or globally:
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill celery --global
+npx skills add lincoln-loop/django-skills --skill celery --global
 ```
 
 Install alongside `django-development` for the full precedence chain:
 
 ```bash
-npx skills add lincoln-loop/agent-skills --skill django-development
-npx skills add lincoln-loop/agent-skills --skill celery
+npx skills add lincoln-loop/django-skills --skill django-development
+npx skills add lincoln-loop/django-skills --skill celery
 ```
 
 Once installed, it's consulted automatically before or while Claude writes Celery task
